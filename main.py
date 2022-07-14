@@ -60,7 +60,9 @@ def checkList():
     req_text = requests.get(list_link, headers="")
 
     current_list_size = int(req_text.headers["Content-Length"])
-    if current_list_size != data["last_list_size"]:
+    if req_text.status_code != 200:
+        print("Error: {} {}".format(req_text.status_code, req_text.reason))
+    elif current_list_size != data["last_list_size"]:
         req_text = requests.get(list_link)
         req_text.encoding = req_text.apparent_encoding
         req_text = req_text.text
