@@ -89,7 +89,8 @@ def checkList():
                                                                                            else ":arrow_down:") + "\n"
                 data['abit'][dis_id[0]]['prev'][spec[0]] = spec[1]
             d_val = {'content': txt}
-            requests.post(webhook_url, json=d_val)
+            if len(new_val.items()) > 0:
+                requests.post(webhook_url, json=d_val)
 
         data["last_list_size"] = current_list_size
         save()
