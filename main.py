@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import threading
 import time
 
@@ -51,7 +52,10 @@ async def set_id(ctx: interactions.CommandContext):
 
 @bot.modal("set-id")
 async def modal_response(ctx, response: str):
-    data['abit'] = {str(ctx.author.id): {"id": response}}
+    if not re.compile("\\d{11}").match(response):
+        await ctx.send("Неверный формат СНИЛС. Должен состоять из 11 цифр")
+        return
+    data['abit'][str(ctx.author.id)] = {"id": response}
     save()
     await ctx.send(f"Сохранили. СНИЛС: {response}", ephemeral=True)
 
